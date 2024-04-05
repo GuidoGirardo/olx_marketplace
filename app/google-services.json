@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1025455078362",
+    "project_id": "olx-marketplace-9fb17",
+    "storage_bucket": "olx-marketplace-9fb17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025455078362:android:7742ec72407e6658f05ee3",
+        "android_client_info": {
+          "package_name": "com.guido.olx_marketplace"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqKEXViTQhJo8-gCLUcyPxdmGk9tCRrTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
