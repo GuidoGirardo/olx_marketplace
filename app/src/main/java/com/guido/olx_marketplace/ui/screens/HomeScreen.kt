@@ -36,8 +36,8 @@ fun HomeScreen(navController: NavController, viewModel: AppViewModel) {
             Text("hola $user")
             LazyColumn {
                 items(postList) { post ->
-                    val title = post["usuario"].toString()
-                    val user = post["titulo"].toString()
+                    val title = post["titulo"].toString()
+                    val user = post["usuario"].toString()
                     val description = post["descripcion"].toString()
                     PostItem(
                         title = title,
@@ -81,9 +81,9 @@ fun PostItem(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(text = "Título: $title")
-            Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Usuario: $user")
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "Título: $title")
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Descripción: $description")
         }

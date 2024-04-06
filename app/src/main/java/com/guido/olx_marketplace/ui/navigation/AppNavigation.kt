@@ -30,7 +30,7 @@ fun AppNavigation(viewModel: AppViewModel) {
         }
 
         composable(route = AppScreens.ProfileScreen.route) {
-            ProfileScreen(navController)
+            ProfileScreen(navController, viewModel)
         }
 
         composable(route = AppScreens.DetailScreen.route) {
