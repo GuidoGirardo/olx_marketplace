@@ -14,4 +14,5 @@ class AppViewModel : ViewModel() {
             _postList.value = posts
         }
     }
+
 }

@@ -7,7 +7,6 @@ internal fun getPost(postListCallback: (List<Map<String, Any>>) -> Unit) {
     val db = FirebaseFirestore.getInstance()
     db.collection("post").addSnapshotListener { snapshot, exception ->
         if (exception != null) {
-            // Handle error
             return@addSnapshotListener
         }
 
