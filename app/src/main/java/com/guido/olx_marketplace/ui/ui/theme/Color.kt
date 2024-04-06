@@ -1,4 +1,4 @@
-package com.guido.olx_marketplace.ui.theme
+package com.guido.olx_marketplace.ui.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

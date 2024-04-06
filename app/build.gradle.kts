@@ -51,6 +51,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -69,9 +70,17 @@ dependencies {
 
     // navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    /* implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    // firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    // firestore
+    implementation("com.google.firebase:firebase-firestore")
+    // corrutina (await)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.2")
+    // live data
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
-    implementation("androidx.compose.runtime:runtime-livedata:1.0.5") */
+    implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
+
+    /* implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1") */
 
 }

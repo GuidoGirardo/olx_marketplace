@@ -1,4 +1,4 @@
-package com.guido.olx_marketplace.ui.theme
+package com.guido.olx_marketplace.ui.ui.theme
 
 import android.app.Activity
 import android.os.Build

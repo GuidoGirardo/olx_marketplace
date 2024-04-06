@@ -1,4 +1,4 @@
-package com.guido.olx_marketplace
+package com.guido.olx_marketplace.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,8 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.guido.olx_marketplace.navigation.AppNavigation
-import com.guido.olx_marketplace.ui.theme.Olx_marketplaceTheme
+import com.guido.olx_marketplace.ui.navigation.AppNavigation
+import com.guido.olx_marketplace.ui.ui.theme.Olx_marketplaceTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
