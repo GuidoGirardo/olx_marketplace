@@ -13,8 +13,6 @@ fun DetailScreen(navController: NavController) {
     val user = navController.currentBackStackEntry?.arguments?.getString("user") ?: ""
     val description = navController.currentBackStackEntry?.arguments?.getString("description") ?: ""
 
-
-
     Column(modifier = Modifier.fillMaxSize()){
         Text("Título: $title")
         Text("Usuario: $user")

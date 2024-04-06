@@ -25,14 +25,15 @@ import com.guido.olx_marketplace.ui.navigation.AppScreens
 import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
 
 @Composable
-fun HomeScreen(navController: NavController) {
-    val viewModel: AppViewModel = viewModel()
-
+fun HomeScreen(navController: NavController, viewModel: AppViewModel) {
+    // val viewModel: AppViewModel = viewModel()
+    val user = viewModel.currentUser.value ?: "Usuario desconocido"
     val postList by viewModel.postList.observeAsState(emptyList())
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             Text("Lista de Posts:")
+            Text("hola $user")
             LazyColumn {
                 items(postList) { post ->
                     val title = post["usuario"].toString()

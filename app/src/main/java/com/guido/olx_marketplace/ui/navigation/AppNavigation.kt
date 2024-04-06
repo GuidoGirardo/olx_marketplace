@@ -9,9 +9,10 @@ import com.guido.olx_marketplace.ui.screens.LoginScreen
 import com.guido.olx_marketplace.ui.screens.ProfileScreen
 import com.guido.olx_marketplace.ui.screens.RegisterScreen
 import com.guido.olx_marketplace.ui.screens.DetailScreen
+import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(viewModel: AppViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = AppScreens.RegisterScreen.route) {
@@ -21,11 +22,11 @@ fun AppNavigation() {
         }
 
         composable(route = AppScreens.LoginScreen.route) {
-            LoginScreen(navController)
+            LoginScreen(navController, viewModel)
         }
 
         composable(route = AppScreens.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreen(navController, viewModel)
         }
 
         composable(route = AppScreens.ProfileScreen.route) {
