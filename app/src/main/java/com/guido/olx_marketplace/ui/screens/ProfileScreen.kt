@@ -1,6 +1,7 @@
 package com.guido.olx_marketplace.ui.screens
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -24,7 +25,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
+import com.guido.olx_marketplace.model.firebase.newPostFirebase
 import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
+import java.util.UUID
 
 @Composable
 fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
@@ -34,6 +39,12 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
     var descripcion by remember { mutableStateOf("") }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
+
+    val storage = Firebase.storage
+    val storageRef = storage.reference
+    val imageName = "${System.currentTimeMillis()}_${UUID.randomUUID()}.jpg"
+    val imagesRef = storageRef.child("images").child(imageName)
+
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -75,12 +86,29 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(onClick = {
                         imageUri?.let { uri ->
-                            // Aquí puedes hacer algo con la imagen seleccionada, como subirla a Firebase o mostrarla en la app
+                            val inputStream = context.contentResolver.openInputStream(uri)
+                            val byteArray = inputStream?.readBytes()
+                            val uploadTask = imagesRef.putBytes(byteArray!!)
+
+                            uploadTask.addOnSuccessListener { taskSnapshot ->
+                                // La imagen se subió correctamente
+                                // Ahora obtén la URL de descarga
+                                imagesRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                                    val imageUrl = downloadUri.toString()
+                                    Log.i("xd", "URL de la imagen: $imageUrl")
+                                    newPostFirebase(user, titulo, descripcion, imageUrl)
+                                }.addOnFailureListener {
+                                    // Ocurrió un error al obtener la URL de descarga
+                                    Log.e("xd", "Error al obtener la URL de la imagen: $it")
+                                }
+                            }.addOnFailureListener { exception ->
+                                // Ocurrió un error al subir la imagen
+                                Log.e("xd", "Error al subir la imagen: $exception")
+                            }
                         }
                     }) {
                         Text("Send Post")
                     }
-
                     Button(onClick = {
                         launcher.launch("image/*")
                     }) {

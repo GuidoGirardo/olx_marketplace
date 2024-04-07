@@ -1,5 +1,6 @@
 package com.guido.olx_marketplace.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.guido.olx_marketplace.ui.navigation.AppScreens
 import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
 
@@ -38,10 +40,12 @@ fun HomeScreen(navController: NavController, viewModel: AppViewModel) {
                     val title = post["titulo"].toString()
                     val user = post["usuario"].toString()
                     val description = post["descripcion"].toString()
+                    val imageUrl = post["url"].toString()
                     PostItem(
                         title = title,
                         user = user,
                         description = description,
+                        imageUrl = imageUrl,
                         onClick = { title, user, description ->
                             navController.navigate(
                                 "detail/${title}/${user}/${description}"
@@ -69,6 +73,7 @@ fun PostItem(
     title: String,
     user: String,
     description: String,
+    imageUrl: String,
     onClick: (String, String, String) -> Unit
 ) {
     Card(
@@ -80,6 +85,14 @@ fun PostItem(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            Image(
+                painter = rememberImagePainter(imageUrl),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Usuario: $user")
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Título: $title")

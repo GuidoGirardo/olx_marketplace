@@ -74,6 +74,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     // firestore
     implementation("com.google.firebase:firebase-firestore")
+    // firebase storage
+    implementation("com.google.firebase:firebase-storage")
     // corrutina (await)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.2")
     // live data
@@ -81,8 +83,6 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
     // files
     implementation("io.coil-kt:coil-compose:2.5.0")
-
-
 
     /* implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1") */
