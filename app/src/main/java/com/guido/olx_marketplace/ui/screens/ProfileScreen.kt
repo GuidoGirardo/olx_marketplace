@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
+import com.guido.olx_marketplace.model.firebase.deletePost
 import com.guido.olx_marketplace.model.firebase.newPostFirebase
 import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
 import java.util.UUID
@@ -159,13 +160,25 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
                                     .fillMaxWidth()
                                     .height(50.dp)
                             )
+                            Button(onClick = {
+                                deletePost(url,
+                                    onSuccess = {
+                                        viewModel.getPostsForUser(user) // Llama a la función para actualizar la lista de posts del usuario
+                                    },
+                                    onFailure = { exception ->
+                                        // Maneja el error si lo hay
+                                        Log.e("xd", "Error al eliminar post: $exception")
+                                    }
+                                )
+                            }) {
+                                Text("delete post")
+                            }
+
                         }
                     }
                 }
             }
         }
-
-
 
     }
 }
