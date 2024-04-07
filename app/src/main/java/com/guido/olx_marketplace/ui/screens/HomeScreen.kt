@@ -26,7 +26,6 @@ import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: AppViewModel) {
-    // val viewModel: AppViewModel = viewModel()
     val user = viewModel.currentUser.value ?: "Usuario desconocido"
     val postList by viewModel.postList.observeAsState(emptyList())
 

@@ -6,9 +6,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.guido.olx_marketplace.ui.screens.HomeScreen
 import com.guido.olx_marketplace.ui.screens.LoginScreen
-import com.guido.olx_marketplace.ui.screens.ProfileScreen
 import com.guido.olx_marketplace.ui.screens.RegisterScreen
 import com.guido.olx_marketplace.ui.screens.DetailScreen
+import com.guido.olx_marketplace.ui.screens.ProfileScreen
 import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
 
 @Composable

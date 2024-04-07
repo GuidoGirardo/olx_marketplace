@@ -79,6 +79,10 @@ dependencies {
     // live data
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
+    // files
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+
 
     /* implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1") */
