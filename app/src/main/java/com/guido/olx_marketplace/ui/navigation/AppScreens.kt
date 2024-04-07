@@ -5,5 +5,5 @@ sealed class AppScreens(val route: String) {
     object LoginScreen : AppScreens("login_screen")
     object HomeScreen : AppScreens("home_screen")
     object ProfileScreen : AppScreens("profile_screen")
-    object DetailScreen : AppScreens("detail/{title}/{user}/{description}")
+    object DetailScreen : AppScreens("detail?title={title}&user={user}&description={description}&url={url}")
 }

@@ -11,12 +11,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,11 +48,14 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
     val imageName = "${System.currentTimeMillis()}_${UUID.randomUUID()}.jpg"
     val imagesRef = storageRef.child("images").child(imageName)
 
-
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             imageUri = it
         }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getPostsForUser(user)
     }
 
     Column(
@@ -97,6 +103,7 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
                                     val imageUrl = downloadUri.toString()
                                     Log.i("xd", "URL de la imagen: $imageUrl")
                                     newPostFirebase(user, titulo, descripcion, imageUrl)
+                                    viewModel.getPostsForUser(user)
                                 }.addOnFailureListener {
                                     // Ocurrió un error al obtener la URL de descarga
                                     Log.e("xd", "Error al obtener la URL de la imagen: $it")
@@ -125,5 +132,40 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
                 }
             }
         }
+
+
+        // mostrar lista de videos del usuario
+        // hacer un recycler view que llame a una función de otro archivo
+        // esa funcion se encargará de devolver todos los post del usuario "user"
+        LazyColumn {
+            item {
+                viewModel.postUserList.observeAsState().value?.let { posts ->
+                    Column {
+                        posts.forEach { post ->
+                            val titulo = post["titulo"] as String
+                            val descripcion = post["descripcion"] as String
+                            val usuario = post["usuario"] as String
+                            val url = post["url"] as String
+                            Log.i("xd", usuario)
+
+                            // Aquí muestra los detalles del post en tu UI
+                            Text("Título: $titulo")
+                            Text("Descripción: $descripcion")
+                            Text("Usuario: $usuario")
+                            Image(
+                                painter = rememberImagePainter(url),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+
+
     }
 }

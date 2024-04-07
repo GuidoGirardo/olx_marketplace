@@ -1,5 +1,6 @@
 package com.guido.olx_marketplace.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.guido.olx_marketplace.ui.navigation.AppScreens
 import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
+import java.net.URLEncoder
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: AppViewModel) {
@@ -40,16 +42,19 @@ fun HomeScreen(navController: NavController, viewModel: AppViewModel) {
                     val title = post["titulo"].toString()
                     val user = post["usuario"].toString()
                     val description = post["descripcion"].toString()
-                    val imageUrl = post["url"].toString()
+                    val urlHome = post["url"].toString()
+                    val encodedUrl = URLEncoder.encode(urlHome, "UTF-8")
+                    Log.i("xd", "url en home $urlHome")
                     PostItem(
                         title = title,
                         user = user,
                         description = description,
-                        imageUrl = imageUrl,
-                        onClick = { title, user, description ->
+                        urlHome = urlHome,
+                        onClick = { title, user, description, urlHome ->
                             navController.navigate(
-                                "detail/${title}/${user}/${description}"
+                                "detail?title=$title&user=$user&description=$description&url=$encodedUrl"
                             )
+
                         }
                     )
                 }
@@ -73,20 +78,20 @@ fun PostItem(
     title: String,
     user: String,
     description: String,
-    imageUrl: String,
-    onClick: (String, String, String) -> Unit
+    urlHome: String,
+    onClick: (String, String, String, String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp)
-            .clickable(onClick = { onClick(title, user, description) })
+            .clickable(onClick = { onClick(title, user, description, urlHome) })
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             Image(
-                painter = rememberImagePainter(imageUrl),
+                painter = rememberImagePainter(urlHome),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
