@@ -5,13 +5,19 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
@@ -23,15 +29,21 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import com.guido.olx_marketplace.model.firebase.deletePost
 import com.guido.olx_marketplace.model.firebase.newPostFirebase
+import com.guido.olx_marketplace.ui.ui.theme.background
+import com.guido.olx_marketplace.ui.ui.theme.backgroundItem
+import com.guido.olx_marketplace.ui.ui.theme.backgroundNew
 import com.guido.olx_marketplace.ui.viewmodel.AppViewModel
 import java.util.UUID
 
@@ -60,17 +72,18 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(background).padding(16.dp)
     ) {
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = { showPostForm = !showPostForm }) {
+        Button(onClick = { showPostForm = !showPostForm }, modifier = Modifier.padding(start = 10.dp)) {
             Text(if (showPostForm) "Hide Post Form" else "New Post")
         }
+        Spacer(modifier = Modifier.height(8.dp))
 
         if (showPostForm) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                    modifier = Modifier.fillMaxWidth().background(backgroundNew).padding(16.dp)
                 ) {
                     OutlinedTextField(
                         value = titulo,
@@ -91,6 +104,11 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = {
+                        launcher.launch("image/*")
+                    }) {
+                        Text("Select Image")
+                    }
                     Button(onClick = {
                         imageUri?.let { uri ->
                             val inputStream = context.contentResolver.openInputStream(uri)
@@ -117,11 +135,6 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
                     }) {
                         Text("Send Post")
                     }
-                    Button(onClick = {
-                        launcher.launch("image/*")
-                    }) {
-                        Text("Select Image")
-                    }
 
                     imageUri?.let { uri ->
                         Image(
@@ -134,51 +147,79 @@ fun ProfileScreen(navController: NavController, viewModel: AppViewModel) {
             }
         }
 
+        Spacer(modifier = Modifier.height(12.dp))
 
-        // mostrar lista de videos del usuario
-        // hacer un recycler view que llame a una función de otro archivo
-        // esa funcion se encargará de devolver todos los post del usuario "user"
+
         LazyColumn {
             item {
                 viewModel.postUserList.observeAsState().value?.let { posts ->
-                    Column {
-                        posts.forEach { post ->
-                            val titulo = post["titulo"] as String
-                            val descripcion = post["descripcion"] as String
-                            val usuario = post["usuario"] as String
-                            val url = post["url"] as String
-                            Log.i("xd", usuario)
-
-                            // Aquí muestra los detalles del post en tu UI
-                            Text("Título: $titulo")
-                            Text("Descripción: $descripcion")
-                            Text("Usuario: $usuario")
+                    posts.forEach { post ->
+                        val titulo = post["titulo"] as String
+                        val descripcion = post["descripcion"] as String
+                        val url = post["url"] as String
+                        Row(
+                            modifier = Modifier
+                                .background(backgroundItem, RoundedCornerShape(10.dp))
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // Imagen a la izquierda
                             Image(
                                 painter = rememberImagePainter(url),
                                 contentDescription = null,
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
+                                    .size(50.dp)
+                                    .clip(RoundedCornerShape(4.dp)), // Redondear las esquinas de la imagen
+                                alignment = Alignment.CenterStart
                             )
-                            Button(onClick = {
-                                deletePost(url,
-                                    onSuccess = {
-                                        viewModel.getPostsForUser(user) // Llama a la función para actualizar la lista de posts del usuario
-                                    },
-                                    onFailure = { exception ->
-                                        // Maneja el error si lo hay
-                                        Log.e("xd", "Error al eliminar post: $exception")
-                                    }
-                                )
-                            }) {
-                                Text("delete post")
+
+                            // Datos a la derecha de la imagen
+                            Column(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text("Título: $titulo")
+                                Text("Descripción: $descripcion")
                             }
 
+                            Button(
+                                onClick = {
+                                    deletePost(
+                                        url,
+                                        onSuccess = {
+                                            viewModel.getPostsForUser(user)
+                                        },
+                                        onFailure = { exception ->
+                                            Log.e("xd", "Error al eliminar post: $exception")
+                                        }
+                                    )
+                                },
+                                modifier = Modifier
+                                    .widthIn(max = 60.dp)
+                                    .height(110.dp)
+                                    .padding(start = 10.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text("D", fontSize = 9.sp)
+                                    Text("E", fontSize = 9.sp)
+                                    Text("L", fontSize = 9.sp)
+                                    Text("E", fontSize = 9.sp)
+                                    Text("T", fontSize = 9.sp)
+                                    Text("E", fontSize = 9.sp)
+                                }
+                            }
                         }
+                        Spacer(modifier = Modifier.height(12.dp))
                     }
                 }
             }
         }
+
+
 
     }
 }

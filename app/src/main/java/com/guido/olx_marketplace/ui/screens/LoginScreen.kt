@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,7 +51,7 @@ fun LoginScreen(navController: NavController, viewModel: AppViewModel){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.loginregister),
             contentDescription = "Descripción de tu imagen",
             modifier = Modifier
                 .width(370.dp)
@@ -103,6 +104,7 @@ fun LoginScreen(navController: NavController, viewModel: AppViewModel){
             fontSize = 20.sp,
             // color = wowColor,
             fontWeight = FontWeight.Normal,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .clickable { navController.navigate(AppScreens.RegisterScreen.route) }
         )

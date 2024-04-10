@@ -49,7 +49,7 @@ fun RegisterScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.loginregister),
             contentDescription = "Descripción de tu imagen",
             modifier = Modifier
                 .width(370.dp)
@@ -57,9 +57,9 @@ fun RegisterScreen(navController: NavController) {
                 .clip(RoundedCornerShape(30.dp)),
             contentScale = ContentScale.Crop
         )
-        Spacer(modifier = Modifier.height(22.dp))
-        Text(text = "REGISTER", fontSize = 30.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(20.dp))
+        Text(text = "REGISTER", fontSize = 30.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(18.dp))
         Text(text = "User", fontSize = 22.sp, fontWeight = FontWeight.Light)
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
@@ -92,7 +92,7 @@ fun RegisterScreen(navController: NavController) {
                 Text("Password")
             }
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(18.dp))
         Button(
             onClick = { registerUserFirebase(user, email, password) },
             modifier = Modifier
